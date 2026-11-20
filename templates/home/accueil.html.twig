@@ -3,19 +3,57 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+        .example-wrapper code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+        }
+    </style>
 
-<div class="example-wrapper">
-    <h1>Hello</h1>
+    <div class="example-wrapper">
+        <h1>Hello</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/zengorax/Projets/Projets_git/app-web-coteaux/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/home/zengorax/Projets/Projets_git/app-web-coteaux/templates/home/index.html.twig</code></li>
-    </ul>
-    <button class="ui primary button"><i class="user icon"></i> ABSOLUTE GLORP</button>
-</div>
+        This friendly message is coming from:
+        <ul>
+            <li>Your controller at <code>/home/zengorax/Projets/Projets_git/app-web-coteaux/src/Controller/HomeController.php</code></li>
+            <li>Your template at <code>/home/zengorax/Projets/Projets_git/app-web-coteaux/templates/home/index.html.twig</code></li>
+        </ul>
+        <button class="ui primary button"><i class="user icon"></i> ABSOLUTE GLORP</button>
+    </div>
+    <div class="ui mini menu">
+        <a class="active item">
+            Home
+        </a>
+        <div class="ui menu">
+            <div class="ui category search item">
+                <div class="ui transparent icon input">
+                    <input class="prompt" type="text" placeholder="Rechercher un produit">
+                    <i class="search link icon"></i>
+                </div>
+                <div class="results"></div>
+            </div>
+        </div>
+        <div class="ui segment">
+            <p></p>
+        </div>
+        <div class="right menu">
+            <div class="ui dropdown item">
+                Langage <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item">Français</a>
+                    <a class="item">Breizh</a>
+                    <a class="item">Gromli</a>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ui primary button">Sign Up</div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
