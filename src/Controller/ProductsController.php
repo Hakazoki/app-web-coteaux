@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 use App\Entity\Products;
-use App\Repository\ProductsRepository;  
+use App\Form\NewProductType;
+use App\Repository\ProductsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,30 +25,21 @@ final class ProductsController extends AbstractController
     }
 
     #[Route('/products/new', name: 'app_products_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
-        if($request->isMethod('POST')) {
-            if (!$this->isCsrfTokenValid('products_new', $request->request->get('_token'))) {
-                throw $this->createAccessDeniedException('Invalid Token');
-            }
+        $products = new Products();
+        $form = $this->createForm(NewProductType::class, $products);
 
-            $products = new Products();
-            $products->setName($request->request->get('name'));
-            $products->setStatus($request->request->get('status'));
-            $products->setDelay($request->request->getInt('delay'));
-            $products->setImage($request->request->get('image'));
-            $products->setDescription($request->request->get('description'));
-            $products->setPricingType($request->request->get('pricing_type'));
-            $products->setPrice((float) $request->request->get('price'));
-            $products->setQuantity($request->request->get('quantity'));
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($products);
+            $em->flush();
+            $this->addFlash('success', 'Produit créé.');
 
-            $entityManager->persist($products);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_products_list');
+            return $this->redirectToRoute('app_products_show', ['id' => $products->getId()]);
         }
 
-        return $this->render('products/new.html.twig');
+        return $this->render('products/new.html.twig', ['form' => $form]);
     }
 
     #[Route('/products/{id}/edit', name: 'app_products_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
