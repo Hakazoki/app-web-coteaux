@@ -1,25 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>CSS carousel single item per page</h1>
-<ul>
-  <li data-accName="Item 1">
-    <h2>Page 1</h2>
-  </li>
-  <li data-accName="Item 2">
-    <h2>Page 2</h2>
-  </li>
-  <li data-accName="Item 3">
-    <h2>Page 3</h2>
-  </li>
-  <li data-accName="Item 4">
-    <h2>Page 4</h2>
-  </li>
-</ul>
-</body>
-</html>
+{# Carousel d'Uiverse (ashwin_5681), inclus dans home/home.html.twig. --quantity doit égaler le nombre d'itemcarousel. #}
+<div class="slidercarousel" style="--width: 270px; --height: 270px; --quantity: 3;">
+  <div class="listcarousel">
+    <div class="itemcarousel" style="--position: 1">
+      <div class="cardcarousel cardcarousel--image">
+        <img src="{{ asset('images/rat1.jpg') }}" alt="Rat">
+      </div>
+    </div>
+    <div class="itemcarousel" style="--position: 2">
+      <div class="cardcarousel cardcarousel--image">
+        <img src="{{ asset('images/rat2.jpg') }}" alt="Rat2">
+      </div>
+    </div>
+    <div class="itemcarousel" style="--position: 3">
+      <div class="cardcarousel cardcarousel--image">
+        <img src="{{ asset('images/capy1.jpg') }}" alt="Capy">
+      </div>
+    </div>
+  </div>
+</div>
