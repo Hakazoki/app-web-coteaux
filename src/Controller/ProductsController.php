@@ -1,94 +1,81 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Products;
-use App\Repository\ProductsRepository;  
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\ProductsType;
+use App\Repository\ProductsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/products')]
 final class ProductsController extends AbstractController
 {
-    #[Route('/products', name: 'app_products_list')]
-    public function list(ProductsRepository $productsRepository): Response
+    #[Route(name: 'app_products_index', methods: ['GET'])]
+    public function index(ProductsRepository $productsRepository): Response
     {
-        return $this->render('products/list.html.twig', ['products' => $productsRepository->findAll(),]);
+        return $this->render('products/index.html.twig', [
+            'products' => $productsRepository->findAll(),
+        ]);
     }
 
-    #[Route('/products/{id}', name: 'app_products_show', requirements: ['id' => '\d+'])]
-    public function show(Products $products): Response
-    {
-        return $this->render('products/show.html.twig', ['products' => $products]);
-    }
-
-    #[Route('/products/new', name: 'app_products_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_products_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        if($request->isMethod('POST')) {
-            if (!$this->isCsrfTokenValid('products_new', $request->request->get('_token'))) {
-                throw $this->createAccessDeniedException('Invalid Token');
-            }
+        $product = new Products();
+        $form = $this->createForm(ProductsType::class, $product);
+        $form->handleRequest($request);
 
-            $products = new Products();
-            $products->setName($request->request->get('name'));
-            $products->setStatus($request->request->get('status'));
-            $products->setDelay($request->request->getInt('delay'));
-            $products->setImage($request->request->get('image'));
-            $products->setDescription($request->request->get('description'));
-            $products->setPricingType($request->request->get('pricing_type'));
-            $products->setPrice((float) $request->request->get('price'));
-            $products->setQuantity($request->request->get('quantity'));
-
-            $entityManager->persist($products);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($product);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_products_list');
+            return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('products/new.html.twig');
+        return $this->render('products/new.html.twig', [
+            'product' => $product,
+            'form' => $form,
+        ]);
     }
 
-    #[Route('/products/{id}/edit', name: 'app_products_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function edit(Products $products, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'app_products_show', methods: ['GET'])]
+    public function show(Products $product): Response
     {
-        if($request->isMethod('POST')) {
-            if (!$this->isCsrfTokenValid('product_edit', $request->request->get('_token'))) {
+        return $this->render('products/show.html.twig', [
+            'product' => $product,
+        ]);
+    }
 
-                throw $this->createAccessDeniedException('Invalid Token');
-            }
+    #[Route('/{id}/edit', name: 'app_products_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Products $product, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ProductsType::class, $product);
+        $form->handleRequest($request);
 
-            $products->setName($request->request->get('name'));
-            $products->setStatus($request->request->get('status'));
-            $products->setDelay($request->request->getInt('delay'));
-            $products->setImage($request->request->get('image'));
-            $products->setDescription($request->request->get('description'));
-            $products->setPricingType($request->request->get('pricing_type'));
-            $products->setPrice((float) $request->request->get('price'));
-            $products->setQuantity($request->request->get('quantity'));
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_products_show', ['id' => $products->getId()]);
-
-            }
-
-            return $this->render('products/edit.html.twig', ['product' => $products,]);
-
-    }
-
-    #[Route('/products/{id}/delete', name: 'app_products_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
-    public function delete(Products $products, Request $request, EntityManagerInterface $entityManager): Response
-    {
-        if (!$this->isCsrfTokenValid('products_delete', $request->request->get('_token'))) {
-            throw $this->createAccessDeniedException('Invalid token');
+            return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        $entityManager->remove($products);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_products_list');
+        return $this->render('products/edit.html.twig', [
+            'product' => $product,
+            'form' => $form,
+        ]);
     }
 
+    #[Route('/{id}', name: 'app_products_delete', methods: ['POST'])]
+    public function delete(Request $request, Products $product, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($product);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_products_index', [], Response::HTTP_SEE_OTHER);
+    }
 }

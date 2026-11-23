@@ -1,41 +1,10 @@
 body {
-    background-color: skyblue;
+    background-color: whitesmoke;
 }
-
-/* ul {
-    width: 100vw;
-    height: 300px;
-    padding: 20px;
-    display: flex;
-    gap: 4vw;
-}
-
-li {
-    list-style-type: none;
-    background-color: #eeeeee;
-    border: 1px solid #dddddd;
-    padding: 20px;
-
-    flex: 0 0 100%;
-}
-
-li:nth-child(even) {
-    background-color: cyan;
-}
-
-ul {
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-}
-
-li {
-    scroll-snap-align: center;
-} */
 
 
 /* CAROUSEL */
 
-/* From Uiverse.io by ashwin_5681 */
 .cardcarousel {
     width: 100%;
     height: 100%;
@@ -45,11 +14,10 @@ li {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     color: white;
     text-align: center;
-    box-sizing: border-box; /* padding et bordure comptés dans les 200px, sinon la carte déborde */
+    box-sizing: border-box;
     overflow: hidden;
 }
 
-/* Carte qui ne contient qu'une image : l'image remplit toute la carte */
 .cardcarousel--image {
     padding: 0;
 }
@@ -87,7 +55,7 @@ li {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* recadre l'image sans la déformer */
+    object-fit: cover;
 }
 
 @keyframes autoRun {
