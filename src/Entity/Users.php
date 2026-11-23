@@ -46,6 +46,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'Id_User')]
     private Collection $orders;
 
+    #[ORM\OneToOne(inversedBy: 'users', cascade: ['persist', 'remove'])]
+    private ?Producter $Id_Producter = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -176,6 +179,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $order->setIdUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdProducter(): ?Producter
+    {
+        return $this->Id_Producter;
+    }
+
+    public function setIdProducter(?Producter $Id_Producter): static
+    {
+        $this->Id_Producter = $Id_Producter;
 
         return $this;
     }

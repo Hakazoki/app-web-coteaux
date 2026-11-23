@@ -27,6 +27,9 @@ class Producter
     #[ORM\OneToMany(targetEntity: Products::class, mappedBy: 'Id_Producter')]
     private Collection $products;
 
+    #[ORM\OneToOne(mappedBy: 'Id_Producter', cascade: ['persist', 'remove'])]
+    private ?Users $users = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -99,6 +102,28 @@ class Producter
                 $product->setIdProducter(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($users === null && $this->users !== null) {
+            $this->users->setIdProducter(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($users !== null && $users->getIdProducter() !== $this) {
+            $users->setIdProducter($this);
+        }
+
+        $this->users = $users;
 
         return $this;
     }
