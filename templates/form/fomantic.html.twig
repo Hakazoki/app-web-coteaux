@@ -1,0 +1,65 @@
+{% use 'form_div_layout.html.twig' %}
+
+{%- block form_start -%}
+    {%- set state = not submitted ? 'initial ' : (valid ? '' : 'error ') -%}
+    {%- set attr = attr|merge({class: ('ui form ' ~ state ~ attr.class|default(''))|trim}) -%}
+    {{- parent() -}}
+{%- endblock form_start -%}
+
+{%- block form_row -%}
+    {%- set classes = ['field', row_attr.class|default(''), required ? 'required', not valid ? 'error']|filter(c => c)|join(' ') -%}
+    <div{% with {attr: row_attr|merge({class: classes})} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_help(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock form_row -%}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        {%- if form is rootform -%}
+            <div class="ui error message">
+                <ul class="list">
+                    {%- for error in errors -%}<li>{{ error.message }}</li>{%- endfor -%}
+                </ul>
+            </div>
+        {%- else -%}
+            <div class="ui pointing red basic label">
+                {%- for error in errors -%}{{ error.message }}{% if not loop.last %}<br>{% endif %}{%- endfor -%}
+            </div>
+        {%- endif -%}
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+{%- block form_help -%}
+    {%- if help is not empty -%}
+        <small class="ui text grey">{{ help|trans(help_translation_parameters, translation_domain) }}</small>
+    {%- endif -%}
+{%- endblock form_help -%}
+
+{%- block choice_widget_collapsed -%}
+    {%- set attr = attr|merge({class: ('ui fluid dropdown ' ~ attr.class|default(''))|trim}) -%}
+    {{- parent() -}}
+{%- endblock choice_widget_collapsed -%}
+
+{%- block checkbox_row -%}
+    {%- set classes = ['field', row_attr.class|default(''), not valid ? 'error']|filter(c => c)|join(' ') -%}
+    <div{% with {attr: row_attr|merge({class: classes})} %}{{ block('attributes') }}{% endwith %}>
+        <div class="ui checkbox">
+            {{- form_widget(form) -}}
+            {{- form_label(form) -}}
+        </div>
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock checkbox_row -%}
+
+{%- block button_widget -%}
+    {%- set attr = attr|merge({class: ('ui button ' ~ attr.class|default(''))|trim}) -%}
+    {{- parent() -}}
+{%- endblock button_widget -%}
+
+{%- block submit_widget -%}
+    {%- set attr = attr|merge({class: ('primary ' ~ attr.class|default(''))|trim}) -%}
+    {{- parent() -}}
+{%- endblock submit_widget -%}
