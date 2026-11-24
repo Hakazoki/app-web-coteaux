@@ -1,4 +1,57 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_errors(form) }}
+
+    <h4 class="ui dividing header">Le produit</h4>
+    <div class="fields">
+        {{ form_row(form.name, {
+            label: 'Nom du produit',
+            row_attr: {class: 'ten wide'},
+            attr: {placeholder: 'Ex. : tomates cœur de bœuf', autofocus: true}
+        }) }}
+        {{ form_row(form.Id_Producter, {label: 'Producteur', row_attr: {class: 'six wide'}}) }}
+    </div>
+
+    {{ form_row(form.description, {
+        label: 'Description',
+        attr: {rows: 3, placeholder: 'Informations complémentaires du produit : variété, conservation, conseils…'}
+    }) }}
+
+    {{ form_row(form.image, {
+        label: 'Image',
+        attr: {rows: 1, placeholder: 'Adresse de l\'image'}
+    }) }}
+
+    <h4 class="ui dividing header">Prix et stock</h4>
+    <div class="fields">
+        <div class="six wide field required {{ form.price.vars.valid ? '' : 'error' }}">
+            {{ form_label(form.price, 'Prix') }}
+            <div class="ui right labeled input">
+                {{ form_widget(form.price, {attr: {placeholder: '2,50', step: '0.01', min: 0}}) }}
+                <div class="ui basic label">€</div>
+            </div>
+            {{ form_errors(form.price) }}
+        </div>
+        {{ form_row(form.pricing_type, {
+            label: 'Vendu au',
+            row_attr: {class: 'five wide'},
+            attr: {placeholder: 'kg, pièce, botte…'}
+        }) }}
+        {{ form_row(form.quantity, {
+            label: 'Stock disponible',
+            row_attr: {class: 'five wide'},
+            attr: {min: 0}
+        }) }}
+    </div>
+
+    <h4 class="ui dividing header">Disponibilité</h4>
+    <div class="two fields">
+        {{ form_row(form.status, {label: 'Statut', attr: {placeholder: 'Ex. : disponible'}}) }}
+        {{ form_row(form.delay, {label: 'Délai de préparation', attr: {min: 0}}) }}
+    </div>
+
+    {{ form_rest(form) }}
+
+    <div class="ui hidden divider"></div>
+    <button class="ui primary button">{{ button_label|default('Enregistrer') }}</button>
+    <a class="ui basic button" href="{{ path('app_products_index') }}">Annuler</a>
 {{ form_end(form) }}
