@@ -2,7 +2,12 @@ body {
     background-color: whitesmoke;
 }
 
-
+#container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2%;
+    padding: 0% 2%;
+}
 /* CAROUSEL */
 
 .cardcarousel {
@@ -31,7 +36,12 @@ body {
     width: 100%;
     height: var(--height);
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent, #000 10% 90%, transparent);
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        #000 10% 90%,
+        transparent
+    );
 }
 
 .slidercarousel .listcarousel {
@@ -48,7 +58,9 @@ body {
     left: 100%;
     animation: autoRun 10s linear infinite;
     transition: filter 0.5s;
-    animation-delay: calc((10s / var(--quantity)) * (var(--position) - 1) - 10s) !important;
+    animation-delay: calc(
+        (10s / var(--quantity)) * (var(--position) - 1) - 10s
+    ) !important;
 }
 
 .slidercarousel .listcarousel .itemcarousel img {
