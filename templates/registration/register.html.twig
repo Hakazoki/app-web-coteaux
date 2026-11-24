@@ -1,19 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Créer un compte{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="ui text container page-formulaire">
+        <h1 class="ui header">
+            <i class="user plus icon"></i>
+            <div class="content">
+                Créer un compte
+            </div>
+        </h1>
 
-    {{ form_errors(registrationForm) }}
+        <div class="ui segment">
+            {{ form_start(registrationForm) }}
+                {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                {{ form_row(registrationForm.full_name, {
+                    label: 'Nom et prénom',
+                    attr: {placeholder: 'Matthyeu Koch', autocomplete: 'name', autofocus: true}
+                }) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                <div class="field required {{ registrationForm.email.vars.valid ? '' : 'error' }}">
+                    {{ form_label(registrationForm.email, 'Adresse e-mail') }}
+                    <div class="ui left icon input">
+                        {{ form_widget(registrationForm.email, {attr: {placeholder: 'gromli@exemple.fr', autocomplete: 'email'}}) }}
+                        <i class="envelope icon"></i>
+                    </div>
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+
+                {% set mdp_classe = registrationForm.plainPassword.vars.valid and registrationForm.plainPassword.first.vars.valid ? '' : 'error' %}
+                <div class="two fields">
+                    <div class="field required {{ mdp_classe }}">
+                        {{ form_label(registrationForm.plainPassword.first) }}
+                        <div class="ui left icon input">
+                            {{ form_widget(registrationForm.plainPassword.first, {attr: {placeholder: '••••••••'}}) }}
+                            <i class="lock icon"></i>
+                        </div>
+                    </div>
+                    <div class="field required {{ mdp_classe }}">
+                        {{ form_label(registrationForm.plainPassword.second) }}
+                        <div class="ui left icon input">
+                            {{ form_widget(registrationForm.plainPassword.second, {attr: {placeholder: '••••••••'}}) }}
+                            <i class="lock icon"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="field {{ mdp_classe }}">
+                    <small class="ui text grey">6 caractères minimum.</small>
+                    {{ form_errors(registrationForm.plainPassword) }}
+                    {{ form_errors(registrationForm.plainPassword.first) }}
+                </div>
+
+                {{ form_row(registrationForm.agreeTerms, {label: 'J\'accepte les conditions d\'utilisation'}) }}
+
+                <div class="ui hidden divider"></div>
+                <button type="submit" class="ui primary fluid button">Créer mon compte</button>
+            {{ form_end(registrationForm) }}
+        </div>
+
+        <p class="ui center aligned basic segment">
+            Déjà inscrit ? <a href="{{ path('app_login') }}">Se connecter</a>
+        </p>
+    </div>
 {% endblock %}
