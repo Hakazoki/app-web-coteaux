@@ -7,6 +7,8 @@ import './stimulus_bootstrap.js';
  */
 import './styles/app.css';
 
-document.addEventListener('turbo:load', () => {
+const initFomantic = () => {
     $('.ui.dropdown').dropdown();
-});
+};
+document.addEventListener('turbo:load', initFomantic);
+initFomantic();
