@@ -1,11 +1,12 @@
+{% set locales = {'fr': 'Français', 'br': 'Breizh', 'gr': 'Gromli'} %}
 <div class="ui top sticky menu">
   <a href="{{ path('app_home') }}" class="active item">
-    Home
+    {{ 'nav.home'|trans }}
   </a>
   <div class="ui menu">
     <div class="ui category search item">
       <div class="ui transparent icon input">
-        <input class="prompt" type="text" placeholder="Rechercher un produit">
+        <input class="prompt" type="text" placeholder="{{ 'nav.search'|trans }}">
         <i class="search link icon"></i>
       </div>
       <div class="results"></div>
@@ -13,15 +14,20 @@
   </div>
   <div class="right menu">
     <div class="ui dropdown item">
-      Choisir une langue <i class="dropdown icon"></i>
+      <i class="globe icon"></i>
+      {{ locales[app.request.locale]|default('Choisir une langue') }}
+      <i class="dropdown icon"></i>
       <div class="menu">
-        <a class="item">Français</a>
-        <a class="item">Breizh</a>
-        <a class="item">Gromli</a>
+        {% for code, label in locales %}
+          <a
+            class="item {{ code == app.request.locale ? 'active selected' }}"
+            href="{{ path('app_locale', {locale: code}) }}"
+          >{{ label }}</a>
+        {% endfor %}
       </div>
     </div>
     <div class="item">
-      <div class="ui primary button">Sign Up</div>
+      <div class="ui primary button">{{ 'nav.signup'|trans }}</div>
     </div>
   </div>
 </div>
