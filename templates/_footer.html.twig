@@ -8,11 +8,18 @@
         </div>
       </div>
       <div class="three wide column">
-        <h4 class="ui inverted header">Nous contacter</h4>
+        <h4 class="ui inverted header">{{ 'footer.about'|trans }}</h4>
         <div class="ui inverted link list">
           <a href="#" class="item">Gromli@mail.com</a>
           <a href="#" class="item">02 99 99 99 99</a>
           <a href="#" class="item">GromliFacebookOfficiel</a>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="ui inverted header">{{ 'footer.reglement'|trans }}</h4>
+        <div class="ui inverted link list">
+          <a href="{{ path('cgv') }}" class="item">{{ 'footer.cgv'|trans }}</a>
+          <a href="{{ path('legale') }}" class="item">{{ 'footer.mention'|trans }}</a>
         </div>
       </div>
       <div class="seven wide column">

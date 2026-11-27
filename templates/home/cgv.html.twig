@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions générales de vente{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {% include '_header.html.twig' %}
+    {% endblock %}
+
+    <div class="ui text container" style="margin: 2em auto;">
+        {% include [
+            'home/cgv/' ~ app.request.locale ~ '.html.twig',
+            'home/cgv/fr.html.twig'
+        ] %}
+    </div>
+
+    {% block footer %}
+        {% include '_footer.html.twig' %}
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions légales{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {% include '_header.html.twig' %}
+    {% endblock %}
+
+    <div class="ui text container" style="margin: 2em auto;">
+        {% include [
+            'home/legale/' ~ app.request.locale ~ '.html.twig',
+            'home/legale/fr.html.twig'
+        ] %}
+    </div>
+
+    {% block footer %}
+        {% include '_footer.html.twig' %}
+    {% endblock %}
+{% endblock %}
