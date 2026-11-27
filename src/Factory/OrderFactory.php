@@ -3,6 +3,8 @@
 namespace App\Factory;
 
 use App\Entity\Order;
+use App\Enum\OrderStatus;
+use App\Enum\PickupLocation;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
@@ -35,10 +37,10 @@ final class OrderFactory extends PersistentObjectFactory
     {
         return [
             'id_User' => UsersFactory::new(),
-            'pickup_location' => self::faker()->RandomElement(["grange","marché"]),
-            'status' => self::faker()->RandomElement(["en attente", "en préparation", "prête", "retirée", "annulée"]),
-            'time_slot' => self::faker()->dateTime(),
-            'total_price' => self::faker()->randomFloat(),
+            'pickup_location' => self::faker()->RandomElement(PickupLocation::cases()),
+            'status' => self::faker()->RandomElement(StatusOrder::cases()),
+            'time_slot' => self::faker()->dateTimeBetween('now', '+7 days'),
+            'total_price' => self::faker()->randomFloat(2,5,150),
         ];
     }
 

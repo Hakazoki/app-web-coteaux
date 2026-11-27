@@ -3,6 +3,8 @@
 namespace App\Factory;
 
 use App\Entity\Products;
+use App\Enum\PricingType;
+use App\Enum\Status;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
@@ -34,14 +36,14 @@ final class ProductsFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'delay' => self::faker()->randomNumber(),
+            'delay' => self::faker()->numberBetween(1,5),
             'id_Producter' => ProducterFactory::new(),
             'image' => self::faker()->imageUrl(330, 500, 'couverture', true),
-            'name' => self::faker()->text(50),
-            'price' => self::faker()->randomFloat(),
-            'pricing_type' => self::faker()->RandomElement(['unité', 'poids']),
-            'quantity' => self::faker()->randomNumber(),
-            'status' => self::faker()->RandomElement(['disponible', 'rupture de stock']),
+            'name' => self::faker()->word(),
+            'price' => self::faker()->randomFloat(2,5,150),
+            'pricing_type' => self::faker()->RandomElement(PricingType::cases()),
+            'quantity' => self::faker()->numberBetween(200, 1000),
+            'status' => self::faker()->RandomElement(Status::cases()),
         ];
     }
 

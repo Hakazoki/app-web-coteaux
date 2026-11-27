@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\SubOrder;
+use App\Enum\StatusOrder;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
@@ -36,10 +37,10 @@ final class SubOrderFactory extends PersistentObjectFactory
         return [
             'id_Order' => OrderFactory::new(),
             'id_Products' => ProductsFactory::new(),
-            'price' => self::faker()->randomFloat(),
-            'producter_time_slot' => self::faker()->dateTime(),
-            'quantity' => self::faker()->randomFloat(),
-            'status' => self::faker()->RandomElement(["en attente", "prête", "retirée", "annulée"]),
+            'price' => self::faker()->randomFloat(2,5,150),
+            'producter_time_slot' => self::faker()->dateTimeBetween('now', '+7 days'),
+            'quantity' => self::faker()->randomFloat(2,0,100),
+            'status' => self::faker()->RandomElement(StatusOrder::cases()),
         ];
     }
 

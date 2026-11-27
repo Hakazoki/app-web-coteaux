@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Producter;
+use App\Enum\Activity;
 use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
@@ -34,8 +35,9 @@ final class ProducterFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'activity' => self::faker()->text(50),
-            'full_name' => self::faker()->text(80),
+            'activity' => self::faker()->RandomElement(Activity::cases()),
+            'first_name' => self::faker()->firstName(),
+            'last_name' => self::faker()->lastName(),
         ];
     }
 

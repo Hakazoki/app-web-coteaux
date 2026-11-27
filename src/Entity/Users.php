@@ -35,13 +35,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 80)]
-    private ?string $full_name = null;
-
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Role $role = null;
-
     /**
      * @var Collection<int, Order>
      */
