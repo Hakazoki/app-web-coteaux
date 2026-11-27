@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\PickupLocation;
+use App\Enum\StatusOrder;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,14 +18,14 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
+    #[ORM\Column(enumType: StatusOrder::class)]
+    private StatusOrder $status = StatusOrder::PENDING;
 
     #[ORM\Column]
     private ?\DateTime $time_slot = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $pickup_location = null;
+    #[ORM\Column(enumType: PickupLocation::class)]
+    private PickupLocation $pickup_location = PickupLocation::BARN;
 
     #[ORM\Column]
     private ?float $total_price = null;

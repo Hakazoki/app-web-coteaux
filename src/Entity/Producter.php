@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Activity;
 use App\Repository\ProducterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,11 +16,8 @@ class Producter
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 80)]
-    private ?string $full_name = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $activity = null;
+    #[ORM\Column(enumType: Activity::class)]
+    private Activity $activity = Activity::BREAD;
 
     /**
      * @var Collection<int, Products>
@@ -29,6 +27,12 @@ class Producter
 
     #[ORM\OneToOne(mappedBy: 'Id_Producter', cascade: ['persist', 'remove'])]
     private ?Users $users = null;
+
+    #[ORM\Column(length: 15)]
+    private ?string $first�_name = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $last_name = null;
 
     public function __construct()
     {
@@ -124,6 +128,30 @@ class Producter
         }
 
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function getFirst�Name(): ?string
+    {
+        return $this->first�_name;
+    }
+
+    public function setFirst�Name(string $first�_name): static
+    {
+        $this->first�_name = $first�_name;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->last_name;
+    }
+
+    public function setLastName(string $last_name): static
+    {
+        $this->last_name = $last_name;
 
         return $this;
     }

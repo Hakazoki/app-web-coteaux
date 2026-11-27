@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\Status;
+use App\Enum\PricingType;
 use App\Repository\ProductsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,8 +21,8 @@ class Products
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
+    #[ORM\Column(enumType: Status::class)]
+    private Status $status = Status::DISPO;
 
     #[ORM\Column]
     private ?int $delay = null;
@@ -31,8 +33,8 @@ class Products
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $pricing_type = null;
+    #[ORM\Column(enumType: PricingType::class)]
+    private PricingType $pricing_type = PricingType::UNIT;
 
     #[ORM\Column]
     private ?float $price = null;
