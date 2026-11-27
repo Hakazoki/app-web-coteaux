@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Producteur{% endblock %}
+
+{% block body %}
+{{ include('_header.html.twig') }}
+<div class="ui container" style="margin-top: 2em; margin-bottom: 2em;">
+
+    <div class="ui grid">
+
+        
+        <div class="four wide column">
+            <div class="ui vertical fluid menu">
+                <a class="active item" href="{{ path('app_dashboard') }}">
+                    <i class="dashboard icon"></i> Tableau de bord
+                </a>
+                <a class="item" href="#">
+                    <i class="box icon"></i> Mes produits
+                </a>
+                <a class="item" href="#">
+                    <i class="shopping cart icon"></i> Commandes
+                </a>
+                <a class="item" href="#">
+                    <i class="chart line icon"></i> Statistiques
+                </a>
+            </div>
+        </div>
+
+        
+        <div class="twelve wide column">
+
+            <h1 class="ui header">
+                <i class="dashboard icon"></i>
+                <div class="content">
+                    Tableau de bord
+                    <div class="sub header">Bienvenue {{ app.user.fullName }}</div>
+                </div>
+            </h1>
+
+            
+            <div class="ui three stackable cards">
+                <div class="ui card">
+                    <div class="content">
+                        <div class="ui blue statistic">
+                            <div class="value">{{ totalProducts }}</div>
+                            <div class="label">Produits</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui card">
+                    <div class="content">
+                        <div class="ui green statistic">
+                            <div class="value">{{ totalStock }}</div>
+                            <div class="label">Stock total</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui card">
+                    <div class="content">
+                        <div class="ui red statistic">
+                            <div class="value">{{ lowStock }}</div>
+                            <div class="label">Stock faible</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            {% if lowStock > 0 %}
+                <div class="ui warning message">
+                    <i class="warning sign icon"></i>
+                    Attention : {{ lowStock }} produit(s) ont un stock inférieur à 5.
+                </div>
+            {% endif %}
+
+            
+            <h2 class="ui header">Mes produits</h2>
+
+            <table class="ui celled striped table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité en stock</th>
+                        <th>État</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td>
+                                {% if product.quantity < 5 %}
+                                    <span class="ui red label"><i class="warning icon"></i> Stock faible</span>
+                                {% else %}
+                                    <span class="ui green label"><i class="check icon"></i> OK</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="center aligned">
+                                <em>Aucun produit pour le moment.</em>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+{{ include('_footer.html.twig') }}
+{% endblock %}
