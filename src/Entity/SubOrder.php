@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\StatusOrder;
 use App\Repository\SubOrderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,8 +17,8 @@ class SubOrder
     #[ORM\Column]
     private ?float $quantity = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
+    #[ORM\Column(enumType: StatusOrder::class)]
+    private StatusOrder $status = StatusOrder::PENDING;
 
     #[ORM\Column]
     private ?\DateTime $producter_time_slot = null;
