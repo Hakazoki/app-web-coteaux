@@ -3,3 +3,9 @@ nav:
     search: Rechercher un produit
     signup: S'inscrire
     language: Choisir une langue
+
+footer:
+    about: A propos
+    reglement: Règlement
+    cgv: Conditions générales de vente
+    mention: Mentions légales

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
+
 
 class RegistrationController extends AbstractController
 {
@@ -26,9 +26,9 @@ class RegistrationController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
-            // encode the plain password
+           
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-            // l'inscription publique ne crée que des clients ; producteurs et coordinatrice viennent des fixtures
+           
             $user->setRoles(['ROLE_CLIENT']);
 
             $entityManager->persist($user);
